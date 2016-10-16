@@ -33,15 +33,15 @@ module Sudoku
     end
 
     def get_box_by(cell:)
-      top_left_x_of_box =containing_box_start_index(cell.x)
-      top_left_y_of_box =containing_box_start_index(cell.y)
+      start_x = box_start_index(cell.x)
+      start_y = box_start_index(cell.y)
 
-      final_x = top_left_x_of_box + 3
-      final_y = top_left_y_of_box + 3
+      end_x = start_x + 3
+      end_y = start_y + 3
       box = []
 
-      (top_left_x_of_box...final_x).each do |x|
-        (top_left_y_of_box...final_y).each do |y|
+      (start_x...end_x).each do |x|
+        (start_y...end_y).each do |y|
           next if x == cell.x && y == cell.y
           box << fields[x][y]
         end
@@ -52,7 +52,7 @@ module Sudoku
 
     private
 
-    def containing_box_start_index(index)
+    def box_start_index(index)
       case index
         when (0..2) then
           0

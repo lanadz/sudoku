@@ -17,7 +17,7 @@ RSpec.describe Sudoku::Board do
 
   subject { described_class.new(input_matrix) }
 
-  it 'creates new bord and fills cells' do
+  it 'creates new board and fills cells' do
     board_values = subject.fields.map do |row|
       row.map(&:value)
     end
