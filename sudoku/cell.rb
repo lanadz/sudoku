@@ -9,5 +9,9 @@ module Sudoku
       @value = value
       @optionals = []
     end
+
+    def has_value?
+      @value != 0
+    end
   end
 end
