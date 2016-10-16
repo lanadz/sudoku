@@ -14,6 +14,12 @@ module Sudoku
       end
     end
 
+    def to_a
+      fields.map do |row|
+        row.map(&:value)
+      end
+    end
+
     def resolved?
       fields.flatten.map(&:value).none?(&:zero?)
     end

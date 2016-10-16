@@ -79,4 +79,10 @@ RSpec.describe Sudoku::Board do
       end
     end
   end
+
+  describe '#to_a' do
+    it 'returns array presentation of the board' do
+      expect(subject.to_a).to match_array input_matrix
+    end
+  end
 end
