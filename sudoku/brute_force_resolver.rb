@@ -6,13 +6,6 @@ module Sudoku
       @board = board
     end
 
-    def possible_optionals(cell)
-      present_values = board.get_row_by(cell: cell).map(&:value) |
-                        board.get_col_by(cell: cell).map(&:value) |
-                        board.get_box_by(cell: cell).map(&:value)
-      (1..9).to_a - present_values
-    end
-
     def execute
       @has_changes = true
 
@@ -21,23 +14,23 @@ module Sudoku
 
         fill_with_optionals
 
-        find_uniq_optionals unless @has_changes
+        refresh_with_uniq_optionals
       end
     end
 
-    def find_uniq_optionals
-      unless board.resolved?
-        (0...9).each do |x|
-          (0...9).each do |y|
-            cell = board.fields[x][y]
-            next if cell.has_value?
+    private
 
-            if (new_value = unique_optional(cell))
-              set_value(cell, new_value)
-              next
-            end
-          end
-        end
+    def cleanup_optionals(cell)
+      board.get_row_by(cell: cell).each do |element|
+        element.optionals.delete(cell.value)
+      end
+
+      board.get_col_by(cell: cell).each do |element|
+        element.optionals.delete(cell.value)
+      end
+
+      board.get_box_by(cell: cell).each do |element|
+        element.optionals.delete(cell.value)
       end
     end
 
@@ -54,25 +47,31 @@ module Sudoku
       nil
     end
 
-    def cleanup_optionals(cell)
-      board.get_row_by(cell: cell).each do |element|
-        element.optionals.delete(cell.value)
-      end
+    def refresh_with_uniq_optionals
+      unless board.resolved?
+        (0...9).each do |x|
+          (0...9).each do |y|
+            cell = board.fields[x][y]
+            next if cell.has_value?
 
-      board.get_col_by(cell: cell).each do |element|
-        element.optionals.delete(cell.value)
-      end
-
-      board.get_box_by(cell: cell).each do |element|
-        element.optionals.delete(cell.value)
+            if (new_value = unique_optional(cell))
+              set_value(cell, new_value)
+              next
+            end
+          end
+        end
       end
     end
 
-    private
+    def possible_optionals(cell)
+      present_values = board.get_row_by(cell: cell).map(&:value) |
+        board.get_col_by(cell: cell).map(&:value) |
+        board.get_box_by(cell: cell).map(&:value)
+      (1..9).to_a - present_values
+    end
 
     def set_value(cell, result)
       cell.value = result
-      cell.optionals = []
       @has_changes = true
       cleanup_optionals(cell)
     end
@@ -82,26 +81,15 @@ module Sudoku
         row.each do |cell|
           next if cell.has_value?
 
-          opts = possible_optionals(cell)
+          optionals = possible_optionals(cell)
 
-          persist_value_if_one_optional_only(cell: cell, optionals: opts)
-          persist_optionals(cell: cell, optionals: opts)
+          if optionals.size > 1 && cell.optionals.sort != optionals.sort
+            cell.optionals = optionals
+            @has_changes = true
+          elsif optionals.size == 1
+            set_value(cell, optionals.first)
+          end
         end
-      end
-    end
-
-    def persist_optionals(cell:, optionals:)
-      if optionals.size > 1 && cell.optionals.sort != optionals.sort
-        cell.optionals = optionals
-        @has_changes = true
-      end
-    end
-
-    def persist_value_if_one_optional_only(cell:, optionals:)
-      if optionals.size == 1
-        cell.value = optionals.first
-        cell.optionals = []
-        @has_changes = true
       end
     end
   end
