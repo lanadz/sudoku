@@ -159,16 +159,4 @@ RSpec.describe Sudoku::BruteForceResolver do
       end
     end
   end
-
-  describe '#resolved?' do
-    it 'returns true if resolved' do
-      puzzle_1.execute
-
-      expect(puzzle_1.resolved?).to be_truthy
-    end
-
-    it 'returns false if there are empty cells' do
-      expect(puzzle_1.resolved?).to be_falsy
-    end
-  end
 end

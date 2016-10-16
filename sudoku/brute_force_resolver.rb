@@ -6,10 +6,6 @@ module Sudoku
       @board = board
     end
 
-    def resolved?
-      board.fields.flatten.map(&:value).none?(&:zero?)
-    end
-
     def possible_optionals(cell)
       present_values = board.get_row_by(cell: cell).map(&:value) |
                         board.get_col_by(cell: cell).map(&:value) |
@@ -30,7 +26,7 @@ module Sudoku
     end
 
     def find_uniq_optionals
-      if !resolved?
+      unless board.resolved?
         (0...9).each do |x|
           (0...9).each do |y|
             cell = board.fields[x][y]

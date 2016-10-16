@@ -14,6 +14,10 @@ module Sudoku
       end
     end
 
+    def resolved?
+      fields.flatten.map(&:value).none?(&:zero?)
+    end
+
     def get_row_by(cell:)
       row = []
       fields[cell.x].each do |element|
