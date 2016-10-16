@@ -15,13 +15,21 @@ module Sudoku
     end
 
     def get_row_by(cell:)
-      fields[cell.x]
+      row = []
+      fields[cell.x].each do |element|
+        next if element.y == cell.y
+        row << element
+      end
+      row
     end
 
     def get_col_by(cell:)
-      (0...9).map do |x|
-        fields[x][cell.y]
+      col = []
+      (0...9).each do |x|
+        next if x == cell.x
+        col << fields[x][cell.y]
       end
+      col
     end
 
     def get_box_by(cell:)
@@ -34,6 +42,7 @@ module Sudoku
 
       (top_left_x_of_box...final_x).each do |x|
         (top_left_y_of_box...final_y).each do |y|
+          next if x == cell.x && y == cell.y
           box << fields[x][y]
         end
       end

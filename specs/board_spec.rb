@@ -26,7 +26,7 @@ RSpec.describe Sudoku::Board do
   end
 
   describe '#get_row_by' do
-    let(:expected_row_values) { [2, 0, 8, 0, 7, 0, 9, 0, 1] }
+    let(:expected_row_values) { [2, 8, 0, 7, 0, 9, 0, 1] }
 
     it 'gets row based on cell\'s index' do
       row = subject.get_row_by(cell: Sudoku::Cell.new(x: 2, y: 1, value: 0))
@@ -35,7 +35,7 @@ RSpec.describe Sudoku::Board do
   end
 
   describe '#get_col_by' do
-    let(:expected_col_values) { [0, 7, 0, 2, 8, 3, 0, 6, 0] }
+    let(:expected_col_values) { [0, 7, 2, 8, 3, 0, 6, 0] }
 
     it 'gets col based on cell\'s index' do
       col = subject.get_col_by(cell: Sudoku::Cell.new(x: 2, y: 1, value: 0))
@@ -44,7 +44,7 @@ RSpec.describe Sudoku::Board do
   end
 
   describe '#get_box_by' do
-    let(:expected_box_values) { [0, 1, 0, 6, 3, 5, 0, 4, 0] }
+    let(:expected_box_values) { [0, 1, 0, 6, 3, 0, 4, 0] }
 
     it 'gets box based on cell\'s index' do
       box = subject.get_box_by(cell: Sudoku::Cell.new(x: 4, y: 5, value: 0))
