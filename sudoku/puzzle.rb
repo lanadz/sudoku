@@ -4,6 +4,7 @@ module Sudoku
 
     def initialize(board)
       @board = board
+      Validator.new(self).validate
     end
 
     def solve

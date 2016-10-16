@@ -113,4 +113,23 @@ RSpec.describe Sudoku::Puzzle do
       end
     end
   end
+
+  describe 'initialize puzzle with invalid board size' do
+    let(:input_matrix) do
+      [
+        [0, 3, 0, 0, 6, 8, 0, 0, 0],
+        [1, 0, 0, 3, 0, 0, 0, 7, 0],
+        [7, 2, 0, 0, 5, 0, 8, 0, 0],
+        [0, 0, 4, 0, 0, 0, 6, 0, 0],
+        [8, 0, 0, 0, 0, 9, 2, 0, 0],
+        [0, 0, 0, 0, 2, 0, 0, 0, 0],
+        [5, 0, 1, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 5, 0, 9, 0]
+      ]
+    end
+
+    it 'raises error' do
+      expect { subject }.to raise_error Sudoku::InvalidBoardSizeError
+    end
+  end
 end
