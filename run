@@ -1,0 +1,28 @@
+#!/usr/bin/env ruby
+require_relative 'sudoku'
+
+def run
+  input_file_name = ARGV[0]
+
+  lines = File.readlines(input_file_name)
+
+  array = lines.map do |line|
+    line.split(' ').map(&:to_i)
+  end
+
+  puzzle = Sudoku::Puzzle.new(Sudoku::Board.new(array))
+  puzzle.solve
+
+  puts Sudoku::PuzzlePresenter.new(puzzle).content
+end
+
+def print_usage
+  puts "Usage: ./run puzzle.sudoku"
+end
+
+if ARGV.size < 1
+  print_usage
+  exit 1
+else
+  run
+end
