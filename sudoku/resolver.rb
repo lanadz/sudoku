@@ -14,5 +14,42 @@ module Sudoku
       present_values.flatten!.uniq!
       (0..9).to_a - present_values
     end
+
+    def main_loop
+      @has_changes = true
+      while @has_changes do
+        @has_changes = false
+        board.fields.each do |row|
+          row.each do |cell|
+            next if cell_has_value?(cell)
+
+            opts = possible_optionals(cell)
+
+            persist_value_if_one_optional_only(cell: cell, optionals: opts)
+            persist_optionals(cell: cell, optionals: opts)
+          end
+        end
+      end
+    end
+
+    private
+
+    def cell_has_value?(cell)
+      cell.value != 0
+    end
+
+    def persist_optionals(cell:, optionals:)
+      if optionals.size > 1 && cell.optionals.sort != optionals.sort
+        cell.optionals = optionals
+        @has_changes = true
+      end
+    end
+
+    def persist_value_if_one_optional_only(cell:, optionals:)
+      if optionals.size == 1
+        cell.value = optionals.first
+        @has_changes = true
+      end
+    end
   end
 end

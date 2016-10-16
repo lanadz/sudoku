@@ -15,6 +15,20 @@ RSpec.describe Sudoku::Resolver do
     ]
   end
 
+  let(:result) do
+    [
+      [1, 4, 3, 5, 9, 6, 7, 2, 8],
+      [6, 7, 9, 1, 2, 8, 3, 4, 5],
+      [2, 5, 8, 4, 7, 3, 9, 6, 1],
+      [4, 2, 6, 7, 1, 9, 8, 5, 3],
+      [9, 8, 1, 6, 3, 5, 2, 7, 4],
+      [7, 3, 5, 8, 4, 2, 6, 1, 9],
+      [3, 1, 2, 9, 6, 4, 5, 8, 7],
+      [5, 6, 7, 3, 8, 1, 4, 9, 2],
+      [8, 9, 4, 2, 5, 7, 1, 3, 6]
+    ]
+  end
+
   let(:board) { Sudoku::Board.new(input_matrix) }
   subject { described_class.new(board) }
 
@@ -29,6 +43,18 @@ RSpec.describe Sudoku::Resolver do
     it 'returns possible values for cell (2,8)' do
       cell = Sudoku::Cell.new(x: 0, y: 8, value: 0)
       expect(subject.possible_optionals(cell)).to eq [2, 8]
+    end
+  end
+
+  describe '#main_loop' do
+    it 'returns resolves the puzzle' do
+      subject.main_loop
+
+      board_values = subject.board.fields.map do |row|
+        row.map(&:value)
+      end
+
+      expect(board_values).to eq result
     end
   end
 end
