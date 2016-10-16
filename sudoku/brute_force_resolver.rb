@@ -34,6 +34,7 @@ module Sudoku
           end
         end
       end
+      self
     end
 
     private

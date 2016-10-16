@@ -3,7 +3,7 @@ module Sudoku
     attr_reader :fields
 
     def initialize(matrix)
-      @fields= []
+      @fields = []
 
       matrix.each_with_index do |row_values, x_index|
         row = []
