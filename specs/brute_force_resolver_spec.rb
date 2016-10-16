@@ -1,6 +1,6 @@
 require_relative 'spec_helper'
 
-RSpec.describe Sudoku::Resolver do
+RSpec.describe Sudoku::BruteForceResolver do
   let(:input_matrix) do
     [
       [0, 0, 3, 5, 0, 6, 7, 0, 0],
@@ -55,6 +55,18 @@ RSpec.describe Sudoku::Resolver do
       end
 
       expect(board_values).to eq result
+    end
+  end
+
+  describe '#resolved?' do
+    it 'returns true if resolved' do
+      subject.main_loop
+
+      expect(subject.resolved?).to be_truthy
+    end
+
+    it 'returns false if there are empty cells' do
+      expect(subject.resolved?).to be_falsy
     end
   end
 end

@@ -1,9 +1,13 @@
 module Sudoku
-  class Resolver
+  class BruteForceResolver
     attr_reader :board
 
     def initialize(board)
       @board = board
+    end
+
+    def resolved?
+      board.fields.flatten.map(&:value).none?(&:zero?)
     end
 
     def possible_optionals(cell)
