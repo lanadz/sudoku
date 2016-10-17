@@ -1,5 +1,5 @@
 module Sudoku
-  class BruteForceResolver
+  class Resolver
     class BoardHasNoSolution < StandardError
     end
 
@@ -22,7 +22,7 @@ module Sudoku
         first_cell_with_optionals.value = optional
 
         begin
-          resolver = BruteForceResolver.new(Board.new(board.to_a)).execute
+          resolver = Resolver.new(Board.new(board.to_a)).execute
 
           if resolver.resolved?
             return resolver
@@ -114,11 +114,14 @@ module Sudoku
           optionals = possible_optionals(cell)
 
           if optionals.size == 0
+            # when cell doesn't have value, and we cannot find any optionals
             raise BoardHasNoSolution
           elsif optionals.size > 1 && cell.optionals.sort != optionals.sort
+            # when found optionals has changed
             cell.optionals = optionals
             @has_changes = true
           elsif optionals.size == 1
+            # when only one possible option we save it as a value
             set_value(cell, optionals.first)
           end
         end

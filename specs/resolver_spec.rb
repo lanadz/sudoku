@@ -1,6 +1,6 @@
 require_relative 'spec_helper'
 
-RSpec.describe Sudoku::BruteForceResolver do
+RSpec.describe Sudoku::Resolver do
   let(:input_matrix) do
     [
       [0, 0, 3, 5, 0, 6, 7, 0, 0],

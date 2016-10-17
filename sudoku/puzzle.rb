@@ -3,7 +3,7 @@ module Sudoku
     def initialize(board)
       @board = board
       Validator.new(@board).validate
-      @resolver = BruteForceResolver.new(@board)
+      @resolver = Resolver.new(@board)
     end
 
     def solve
