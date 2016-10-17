@@ -42,4 +42,46 @@ RSpec.describe Sudoku::BruteForceResolver do
       expect(board_values).to eq result
     end
   end
+
+  describe '#resolved?' do
+    context 'resolved board' do
+      let(:input_matrix) do
+        [
+          [9, 2, 3, 6, 7, 4, 1, 5, 8],
+          [6, 5, 8, 1, 2, 3, 7, 4, 9],
+          [4, 1, 7, 9, 5, 8, 3, 6, 2],
+          [5, 4, 1, 7, 8, 9, 6, 2, 3],
+          [7, 3, 9, 5, 6, 2, 4, 8, 1],
+          [2, 8, 6, 3, 4, 1, 5, 9, 7],
+          [8, 6, 2, 4, 1, 7, 9, 3, 5],
+          [3, 7, 4, 2, 9, 5, 8, 1, 6],
+          [1, 9, 5, 8, 3, 6, 2, 7, 4]
+        ]
+      end
+
+      it 'returns true' do
+        expect(subject.resolved?).to be_truthy
+      end
+    end
+
+    context 'not resolved board' do
+      let(:input_matrix) do
+        [
+          [9, 2, 3, 6, 7, 4, 1, 5, 8],
+          [6, 5, 8, 1, 2, 3, 7, 4, 9],
+          [4, 1, 7, 9, 5, 8, 3, 6, 2],
+          [5, 4, 1, 0, 8, 9, 6, 2, 3],
+          [7, 3, 9, 5, 6, 2, 4, 8, 1],
+          [2, 8, 6, 3, 4, 1, 5, 9, 7],
+          [8, 6, 2, 4, 1, 7, 9, 3, 5],
+          [3, 7, 4, 2, 9, 5, 8, 1, 6],
+          [1, 9, 5, 8, 3, 6, 2, 0, 0]
+        ]
+      end
+
+      it 'returns false' do
+        expect(subject.resolved?).to be_falsy
+      end
+    end
+  end
 end
