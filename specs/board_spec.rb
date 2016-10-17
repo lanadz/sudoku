@@ -52,6 +52,16 @@ RSpec.describe Sudoku::Board do
     end
   end
 
+  describe '#find_first_empty_cell' do
+    it 'returns cell in (0,1)' do
+      subject.fields[0][1].optionals = [1,2] # set some optionals to the next empty cell
+
+      expect(subject.find_first_empty_cell).to eq subject.fields[0][1]
+      expect(subject.find_first_empty_cell.value).to eq 0
+      expect(subject.find_first_empty_cell.optionals.size).not_to eq 0
+    end
+  end
+
   describe '#resolved?' do
     context 'resolved board' do
       let(:input_matrix) do
