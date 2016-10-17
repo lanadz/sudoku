@@ -1,11 +1,11 @@
 module Sudoku
-  class PuzzlePresenter
+  class BoardPresenter
     def initialize(puzzle)
-      @puzzle = puzzle
+      @board = puzzle
     end
 
     def content
-      @puzzle.board.to_a.map do |row|
+      @board.to_a.map do |row|
         row.join(' ')
       end.join("\n")
     end
