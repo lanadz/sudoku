@@ -6,8 +6,8 @@ module Sudoku
   end
 
   class Validator
-    def initialize(puzzle)
-      @puzzle = puzzle
+    def initialize(board)
+      @board = board
     end
 
     def validate
@@ -19,16 +19,16 @@ module Sudoku
 
     private
 
-    attr_reader :puzzle
+    attr_reader :board
 
     def validate_board_size
-      if puzzle.board.to_a.size != 9 || puzzle.board.to_a.any? { |row| row.size != 9 }
+      if board.to_a.size != 9 || board.to_a.any? { |row| row.size != 9 }
         raise InvalidBoardSizeError
       end
     end
 
     def validate_cell_values
-      unless puzzle.board.to_a.flatten.all? { |cell| (0..9).include? cell }
+      unless board.to_a.flatten.all? { |cell| (0..9).include? cell }
         raise InvalidBoardInputError
       end
     end

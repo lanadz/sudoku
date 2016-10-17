@@ -2,9 +2,8 @@ require_relative 'spec_helper'
 
 RSpec.describe Sudoku::Validator do
   let(:board) { Sudoku::Board.new(input_matrix) }
-  let(:puzzle) { Sudoku::Puzzle.new(board) }
   subject do
-    described_class.new(puzzle)
+    described_class.new(board)
   end
 
   context 'valid puzzle' do
