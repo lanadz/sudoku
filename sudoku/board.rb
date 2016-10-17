@@ -14,6 +14,10 @@ module Sudoku
       end
     end
 
+    def find_first_empty_cell
+      fields.flatten.detect { |cell| cell.value == 0 && cell.optionals.size > 0 }
+    end
+
     def to_a
       fields.map do |row|
         row.map(&:value)

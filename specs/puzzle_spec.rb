@@ -39,11 +39,8 @@ RSpec.describe Sudoku::Puzzle do
       it 'solves the puzzle' do
         subject.solve
 
-        board_values = subject.board.fields.map do |row|
-          row.map(&:value)
-        end
-
-        expect(board_values).to eq result
+        expect(subject).to be_resolved
+        expect(subject.board.to_a).to eq result
       end
     end
   end
@@ -81,11 +78,8 @@ RSpec.describe Sudoku::Puzzle do
       it 'solves the puzzle' do
         subject.solve
 
-        board_values = subject.board.fields.map do |row|
-          row.map(&:value)
-        end
-
-        expect(board_values).to eq result
+        expect(subject).to be_resolved
+        expect(subject.board.to_a).to eq result
       end
     end
   end
@@ -105,11 +99,26 @@ RSpec.describe Sudoku::Puzzle do
       ]
     end
 
+    let(:result) do
+      [
+        [9, 3, 7, 1, 6, 8, 5, 2, 4],
+        [6, 4, 2, 5, 9, 7, 3, 8, 1],
+        [1, 5, 8, 3, 4, 2, 9, 7, 6],
+        [7, 2, 6, 4, 5, 3, 8, 1, 9],
+        [3, 9, 4, 2, 8, 1, 6, 5, 7],
+        [8, 1, 5, 6, 7, 9, 2, 4, 3],
+        [4, 7, 9, 8, 2, 6, 1, 3, 5],
+        [5, 8, 1, 9, 3, 4, 7, 6, 2],
+        [2, 6, 3, 7, 1, 5, 4, 9, 8]
+      ]
+    end
+
     describe '#solve' do
       it 'solves the puzzle' do
         subject.solve
 
-        expect(subject.board.resolved?).to be_falsy
+        expect(subject).to be_resolved
+        expect(subject.board.to_a).to eq result
       end
     end
   end

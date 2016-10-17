@@ -1,14 +1,21 @@
 module Sudoku
   class Puzzle
-    attr_reader :board
-
     def initialize(board)
       @board = board
-      Validator.new(self).validate
+      Validator.new(@board).validate
+      @resolver = BruteForceResolver.new(@board)
     end
 
     def solve
-      BruteForceResolver.new(@board).execute
+      @resolver = @resolver.execute
+    end
+
+    def resolved?
+      @resolver.resolved?
+    end
+
+    def board
+      @resolver.board
     end
   end
 end

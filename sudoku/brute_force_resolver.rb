@@ -1,12 +1,44 @@
 module Sudoku
   class BruteForceResolver
+    class BoardHasNoSolution < StandardError
+    end
+
     attr_reader :board
 
     def initialize(board)
       @board = board
     end
 
+    def resolved?
+      board.resolved?
+    end
+
     def execute
+      solve_with_optionals
+      return self if resolved?
+
+      first_cell_with_optionals = board.find_first_empty_cell
+      first_cell_with_optionals.optionals.each do |optional|
+        first_cell_with_optionals.value = optional
+
+        begin
+          resolver = BruteForceResolver.new(Board.new(board.to_a)).execute
+
+          if resolver.resolved?
+            return resolver
+          end
+        rescue BoardHasNoSolution
+          # We were not able to find solution with picked optional value
+          next
+        end
+      end
+
+      self
+    end
+
+    private
+
+    def solve_with_optionals
       @has_changes = true
 
       while @has_changes do
@@ -17,8 +49,6 @@ module Sudoku
         refresh_with_uniq_optionals
       end
     end
-
-    private
 
     def cleanup_optionals(cell)
       board.get_row_by(cell: cell).each do |element|
@@ -83,7 +113,9 @@ module Sudoku
 
           optionals = possible_optionals(cell)
 
-          if optionals.size > 1 && cell.optionals.sort != optionals.sort
+          if optionals.size == 0
+            raise BoardHasNoSolution
+          elsif optionals.size > 1 && cell.optionals.sort != optionals.sort
             cell.optionals = optionals
             @has_changes = true
           elsif optionals.size == 1
