@@ -17,6 +17,17 @@ This is simple Sudoku puzzle solver.
 
 `Sudoku::Board` expects 2-dimensional array of integers as an input. 
 
+```
+puzzle = Sudoku::Puzzle.new(Sudoku::Board.new(array))
+puzzle.solve
+```
+
+To print result you use `BoardPresenter#content`
+
+```
+Sudoku::BoardPresenter.new(puzzle.board).content
+```
+
 Puzzle is validating its board to check that board size is right and input numbers are in the valid range (0-9).
 
 Initialized board is sent to `Puzzle` and `Puzzle` triggers `Resolver`.

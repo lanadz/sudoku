@@ -11,7 +11,7 @@ def run
   end
 
   puzzle = Sudoku::Puzzle.new(Sudoku::Board.new(array))
-  resolver = puzzle.solve
+  puzzle.solve
 
   puts Sudoku::BoardPresenter.new(puzzle.board).content
 end
